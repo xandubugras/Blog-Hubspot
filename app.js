@@ -1,3 +1,5 @@
+require("piping")();
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,6 +9,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var pages = require('./routes/pages');
 
 var app = express();
 
@@ -21,9 +24,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'bower_components')));
+
 
 app.use('/', index);
 app.use('/users', users);
+//app.use('/pages', pages);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,4 +50,31 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// modo mais tosca e bosta de se fazer bd
+const mongoose = require("mongoose"); 
+const connection = mongoose.connect('mongodb://localhost/database_aprendendo', {
+  useMongoClient: true
+});
+
+//document tem um model que tem um schema
+
+const userSchema = {  
+  firstName: String,
+  lastName: String,
+  instagram: String,
+  email: String,
+  age: Number,  
+};
+
+const userModel = mongoose.model("user", userSchema);
+
+mongoose.connection.on("connected", function(){ 
+  console.log("logado");
+});
+
+mongoose.connection.on("error", function(err){ 
+  console.log("cagado", err);
+});
+
 module.exports = app;
+

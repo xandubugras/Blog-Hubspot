@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>User Admin</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="/jquery/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Manage all your users</h1>
+  <p>I know you like responsive dash bitch</p> 
+</div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <h3>Aqui voce cria um novo user</h3>
+      <form onsubmit="onCreate(event)" id="form">
+        First Name:<br>
+        <input type="text" name="firstName"><br>
+        Last Name:<br>
+        <input type="text" name="lastName"><br>
+        Instagram:<br>
+        <input type="text" name="instagram"><br>
+        Email:<br>
+        <input type="text" name="email"><br>
+        Age:<br>
+        <input type="number" name="age"><br>
+            <input type="submit" value="Submit">
+      </form>
+    </div>
+    <div id="message"></div>
+
+    <div class="col-sm-4">
+      <h3>Aqui eu te mostro os user e voce me conta qual voce quer deletar</h3>
+     <iframe src="/users/list/" id="listFrame"></iframe>
+       <form onsubmit="onDelete(event)" id="form2">
+        <fieldset>
+       <legend>Delete Information:</legend>
+        ID do que vc quer deletar:<br>
+        <input type="text" id="_id"><br>
+        <input type="submit" value="Submit">
+        </fieldset>
+        </form>
+    </div>
+
+    <div class="col-sm-4">
+      <h3>aqui voce me diz qual voce quer editar o nome</h3>        
+       <form action="/users/editname/?">
+        ID do que vc quer editar:<br>
+        <input type="text" name="_id"><br>
+        Novo nome:<br>
+        <input type="text" name="firstname"><br>
+        <input type="submit" value="Submit">
+        </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function onCreate(event){
+    event.preventDefault();
+    var url = "/users/create";
+    var userData = {
+      firstName: $('firstName').val(),
+      lastName: $('lastName').val(),
+      instagram: $('instagram').val(),
+      email: $('email').val(),
+      age: $('age').val(),
+    }
+    $('#form').hide();
+    console.log('formhidsuccessfully');
+    $('#message').html('Saving...');
+
+    $.post(url, userData, function(result){
+      console.log("recebi tudo direitin");
+      $('#message').html("Adicionado com sucesso");
+    })
+    .fail(function(error){
+      $('#message').html('Error on try to create user: ' + error.message);
+    })
+    .always(function(error){
+      $('#form').show();
+    })
+  }
+
+  function onDelete(event){
+    event.preventDefault();
+    var url = '/users/delete/';
+    var userData = {
+      _id: $('#_id').val(),
+    };
+    $('#form2').hide();
+    console.log('form hid successfully');
+    $('#message').html('Saving...');
+    $.post(url, userData, function(result){
+      console.log(userData);
+      $('#message').html('deletou demaaais');
+    })
+    .fail(function(error){
+      $('#message').html('Error on try to delete user: ' + error.message);
+    })
+    .always(function(error){
+      $('#form2').show();
+    })
+  }
+</script>
+</body>
+</html>
+
