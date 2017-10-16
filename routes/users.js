@@ -29,6 +29,7 @@ router.post('/create', function(req, res, next) {
     email: req.body.email,
     age: req.body.age,  
   };
+   console.log('mandou1');
   mongoose.models.user.create(userData, function(error, newUser){
     if (error){ 
       res.status = 400;
@@ -36,7 +37,7 @@ router.post('/create', function(req, res, next) {
         message: "deu bosta",
       });
     }
-
+ console.log('mandou2');
     res.json({
       data: newUser,
     });

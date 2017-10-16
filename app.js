@@ -52,7 +52,7 @@ app.use(function(err, req, res, next) {
 
 // modo mais tosca e bosta de se fazer bd
 const mongoose = require("mongoose"); 
-const connection = mongoose.connect('mongodb://localhost/database_aprendendo', {
+const connection = mongoose.connect('mongodb://localhost/growth-brasilDB', {
   useMongoClient: true
 });
 
