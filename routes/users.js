@@ -3,19 +3,6 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 /* GET users listing. */
-router.get('/foda', function(req, res, next) {
- // res.render('user');
-/*res.json({
-  name: 'ei doug, pq vc n vai se fude rsrsrsrs',
-  lastName: 'isso mesmo, mandei mesmo',
-  age: 20
-
-})*/
-
-//res.json(req.query);
-  res.end("eai mano caiu no gemidao aaaaaah uuuooooohhhhh");
-
-});
 router.get('/', function(req, res, next) {
   const queryado = req.query.name;
   res.render('user', {title: queryado });
