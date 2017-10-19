@@ -1,0 +1,2 @@
+Para deixar o servidor no ar:
+PORT=80 pm2 start ./bin/www
